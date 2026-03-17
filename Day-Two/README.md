@@ -27,7 +27,7 @@ real infrastructure.
 
 4. **Social Media**
    - Shared Day 2 progress on LinkedIn
-   - Link: 
+   - Link: https://www.linkedin.com/posts/lydiah-nganga_step-by-step-guide-to-setting-up-terraform-activity-7439725573586948096-4Ig3?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAcf9WQBEuwTg-q28iqt79pwr6J3YWONKAI
 
 ---
 
