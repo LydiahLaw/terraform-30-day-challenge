@@ -3,7 +3,7 @@
 ## What am I here to do today?
 
 Day 2 is about verifying that the environment set up on Day 1 is fully working and understanding
-how the tools connect to each other. The focus shifts from installation to validation —
+how the tools connect to each other. The focus shifts from installation to validation 
 confirming that Terraform can actually authenticate with AWS and is ready to deploy
 real infrastructure.
 
@@ -23,11 +23,11 @@ real infrastructure.
 
 3. **Blog Post**
    - Published: *Step-by-Step Guide to Setting Up Terraform, AWS CLI, and Your AWS Environment*
-   - Link: [your blog post URL here]
+   - Link: https://medium.com/@LydLaw/step-by-step-guide-to-setting-up-terraform-aws-cli-and-your-aws-environment-626aace27599
 
 4. **Social Media**
-   - Shared Day 2 progress on LinkedIn/X
-   - Link: [your post URL here]
+   - Shared Day 2 progress on LinkedIn
+   - Link: 
 
 ---
 
@@ -44,6 +44,9 @@ access_key  ****************LI4R     shared-credentials-file
 secret_key  ****************+3be     shared-credentials-file
 region      eu-central-1             config-file             ~/.aws/config
 ```
+
+<img width="1366" height="768" alt="aws version" src="https://github.com/user-attachments/assets/f85aee01-7aa4-4040-b587-101903ab1a80" />
+
 ```bash
 $ aws sts get-caller-identity
 {
@@ -52,6 +55,7 @@ $ aws sts get-caller-identity
     "Arn": "arn:aws:iam::835*********:user/terraform"
 }
 ```
+<img width="1366" height="768" alt="access keys" src="https://github.com/user-attachments/assets/bc2d9a69-faaf-4483-badb-852b4df08cd2" />
 
 ---
 
@@ -61,6 +65,8 @@ $ aws sts get-caller-identity
 - AWS Toolkit
 
 ---
+![Uploading extensions.png…]()
+
 
 ## Chapter 2 Learnings
 
