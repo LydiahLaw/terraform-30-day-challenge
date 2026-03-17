@@ -26,10 +26,14 @@ Today is all about setting up my environment for the 30-Day Terraform Challenge 
 ```bash
      aws configure
 ```
+
+<img width="1366" height="768" alt="Screenshot (1600)" src="https://github.com/user-attachments/assets/c87cf00b-a168-40a7-a8bc-3dd109fbd36c" />
+
    - Verified connection using:
 ```bash
      aws sts get-caller-identity
 ```
+<img width="1366" height="768" alt="Screenshot (1601)" src="https://github.com/user-attachments/assets/04647b35-cceb-4173-a5aa-9a3d96caec12" />
 
 4. **Visual Studio Code**
    - Installed VS Code
@@ -38,8 +42,11 @@ Today is all about setting up my environment for the 30-Day Terraform Challenge 
      - AWS Toolkit
    - Set up workspace for all Terraform files
 
+   <img width="1366" height="768" alt="Screenshot (1599)" src="https://github.com/user-attachments/assets/dda6f778-6197-4ef1-9ff7-26e9a9764468" />
+
+
 5. **Blog Setup**
-   - Created a blog on [Hashnode/Dev.to/Medium]
+   - Created a blog on Medium
    - Published first post: *What is Infrastructure as Code and Why It's Transforming DevOps*
    - Covered:
      - What IaC is and the problem it solves
@@ -47,8 +54,10 @@ Today is all about setting up my environment for the 30-Day Terraform Challenge 
      - Why Terraform is worth learning
      - My goals for the 30-day challenge
 
+     https://medium.com/@lygashiku/what-is-infrastructure-as-code-and-why-its-transforming-devops-af7c8f9cb295
+
 6. **Social Media**
-   - Shared Day 1 progress on X/LinkedIn
+   - Shared Day 1 progress on X
    - Included a link to my blog post and hashtags for the challenge
 
 7. **Reading**
