@@ -32,6 +32,7 @@ resource "aws_instance" "web_server" {
               apt-get install -y apache2
               systemctl start apache2
               systemctl enable apache2
+              rm -f /var/www/html/index.html
               echo "<h1>Hello from Terraform - Day 03</h1>" > /var/www/html/index.html
               EOF
 
