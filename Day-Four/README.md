@@ -126,7 +126,6 @@ Server confirmed at
 — page returned: **Hello from Terraform - Day 04 Cluster**
 
 ---
-<img width="1366" height="768" alt="Screenshot (1620)" src="https://github.com/user-attachments/assets/cb373f51-1314-4f54-9c46-28675abe3d1a" />
 
 
 ## What I Learned
