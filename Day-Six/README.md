@@ -257,7 +257,7 @@ tries to connect to a bucket that is not there yet.
 
 ## Blog Post
 
-[Managing Terraform State: Best Practices and Secure Remote Storage](paste your Medium URL here)
+[Managing Terraform State: Best Practices and Secure Remote Storage](https://medium.com/@LydLaw/managing-terraform-state-best-practices-and-secure-remote-storage-592eedd50e9e)
 
 ---
 
