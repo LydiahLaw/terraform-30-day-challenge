@@ -263,5 +263,5 @@ tries to connect to a bucket that is not there yet.
 
 ## Social Media
 
-[[LinkedIn Post]([https://www.linkedin.com/posts/lydiah-nganga_managing-terraform-state-best-practices-activity-7441219205196300288-q16y?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAcf9WQBEuwTg-q28iqt79pwr6J3YWONKAI])
+[Linkedin Post](https://www.linkedin.com/posts/lydiah-nganga_managing-terraform-state-best-practices-activity-7441219205196300288-q16y?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAcf9WQBEuwTg-q28iqt79pwr6J3YWONKAI)
 
