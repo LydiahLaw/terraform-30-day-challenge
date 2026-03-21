@@ -3,7 +3,7 @@
 ## What am I here to do today?
 
 Day 5 has two threads running in parallel. The infrastructure side is an
-extension of Day 4 — the same ALB and ASG cluster redeployed with updated
+extension of Day 4  the same ALB and ASG cluster redeployed with updated
 naming. The real focus today is Terraform state: what it is, what it
 contains, what happens when it gets out of sync with real infrastructure,
 and why managing it correctly matters more than most beginners realize.
@@ -169,6 +169,8 @@ Result:
 
 Plan: 0 to add, 1 to change, 0 to destroy.
 ```
+<img width="1366" height="768" alt="alb tag chnages" src="https://github.com/user-attachments/assets/5e99034c-06b0-4a51-a676-d5ea7428d43c" />
+
 
 What this teaches: Terraform detected that the ALB in AWS had a tag that
 does not exist in the configuration and proposed removing it. The tilde
@@ -241,11 +243,9 @@ managed resource, showed the expected drift detection behavior immediately.
 
 ## Blog Post
 
-[Managing High Traffic Applications with AWS Elastic Load Balancer and
-Terraform](paste your Medium URL here)
-
+https://medium.com/@LydLaw/managing-high-traffic-applications-with-aws-elastic-load-balancer-and-terraform-efa5423fa1a7
 ---
 
 ## Social Media
 
-[LinkedIn Post](paste your LinkedIn URL here)1~
+https://www.linkedin.com/posts/lydiah-nganga_managing-high-traffic-applications-with-aws-activity-7441131062212190208-b7Tl?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAcf9WQBEuwTg-q28iqt79pwr6J3YWONKAI
