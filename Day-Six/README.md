@@ -13,7 +13,7 @@ infrastructure engineer.
 
 ## Tasks Completed
 
-1. Read Chapter 3 of *Terraform: Up & Running* — pages 81 through 113,
+1. Read Chapter 3 of *Terraform: Up & Running* — pages 145 through 157,
    focusing on what state is, shared storage, and managing state across teams
 2. Completed Lab 1: Output Values
 3. Completed Lab 2: State Management
@@ -33,6 +33,7 @@ infrastructure engineer.
   security group, backend configuration, and outputs
 
 ---
+
 
 ## Infrastructure Code
 ```hcl
@@ -109,6 +110,11 @@ output "security_group_id" {
   description = "ID of the example security group"
 }
 ```
+<img width="1366" height="631" alt="s3 bucket created" src="https://github.com/user-attachments/assets/722ce57b-b839-4f67-82db-3c93cb92505e" />
+<img width="1366" height="619" alt="dynamodb created " src="https://github.com/user-attachments/assets/b7378a4c-92db-41d9-82da-09865e1e7643" />
+<img width="1366" height="619" alt="tfstae" src="https://github.com/user-attachments/assets/4ad74fb1-8862-4ff9-8acd-985bf5cd2cc4" />
+
+
 
 ---
 
@@ -122,6 +128,7 @@ aws_s3_bucket_server_side_encryption_configuration.default
 aws_s3_bucket_versioning.enabled
 aws_security_group.example
 ```
+<img width="1366" height="768" alt="terraform state" src="https://github.com/user-attachments/assets/cf90f88d-ffd5-41a9-a2c3-bf379d5faf16" />
 
 ### terraform state show aws_security_group.example
 ```
@@ -173,6 +180,7 @@ State file confirmed in S3 at:
 Size: 9.4 KB, last modified March 21, 2026.
 
 ---
+<img width="1366" height="768" alt="migrate " src="https://github.com/user-attachments/assets/702634d7-ed1d-4338-a0c8-62899be367c4" />
 
 ## State Locking Test
 
@@ -195,6 +203,8 @@ Lock Info:
 DynamoDB blocked the second terminal from acquiring the lock while the
 first apply was running. This prevents concurrent writes to the state
 file which would corrupt it.
+<img width="1366" height="768" alt="state lock" src="https://github.com/user-attachments/assets/09346109-9748-4877-b170-bb137f8a32d6" />
+
 
 ---
 
@@ -253,4 +263,5 @@ tries to connect to a bucket that is not there yet.
 
 ## Social Media
 
-[LinkedIn Post](paste your LinkedIn URL here)
+[[LinkedIn Post](paste your LinkedIn URL here)](https://www.linkedin.com/posts/lydiah-nganga_managing-terraform-state-best-practices-activity-7441219205196300288-q16y?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAcf9WQBEuwTg-q28iqt79pwr6J3YWONKAI)
+
