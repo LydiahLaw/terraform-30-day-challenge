@@ -77,6 +77,9 @@ Server confirmed at `http://52.59.216.93` — page returned:
 
 ---
 
+<img width="1366" height="768" alt="Screenshot (1620)" src="https://github.com/user-attachments/assets/b07a1342-2703-4b54-9cb6-31ea7de369be" />
+
+
 ## Clustered Web Server
 
 ### Architecture
@@ -115,12 +118,15 @@ Outputs:
 
 alb_dns_name = "terraform-day04-alb-846501425.eu-central-1.elb.amazonaws.com"
 ```
+<img width="1366" height="768" alt="Screenshot (1623)" src="https://github.com/user-attachments/assets/9ca52d08-5b88-4101-be72-beeccc195fb9" />
+
 
 Server confirmed at
 `http://terraform-day04-alb-846501425.eu-central-1.elb.amazonaws.com`
 — page returned: **Hello from Terraform - Day 04 Cluster**
 
 ---
+
 
 ## What I Learned
 
@@ -164,10 +170,9 @@ which handles that automatically.
 
 ## Blog Post
 
-[Deploying a Highly Available Web App on AWS Using Terraform](paste your Hashnode URL here)
-
+https://lydiah.hashnode.dev/deploying-a-highly-available-web-app-on-aws-using-terraform
 ---
 
 ## Social Media
 
-[LinkedIn Post](paste your LinkedIn URL here)
+https://www.linkedin.com/posts/lydiah-nganga_deploying-a-highly-available-web-app-on-aws-activity-7440131949836316672-Wtv_?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAcf9WQBEuwTg-q28iqt79pwr6J3YWONKAI
