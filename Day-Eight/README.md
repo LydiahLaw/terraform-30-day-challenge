@@ -146,6 +146,9 @@ the 8080 default in the module. Screenshot of the running cluster is in the
 project assets.
 
 ---
+<img width="1366" height="768" alt="output apply" src="https://github.com/user-attachments/assets/5b8f54b2-d907-4ca2-bcf6-399deb3ac34b" />
+<img width="1366" height="768" alt="browser" src="https://github.com/user-attachments/assets/435ec061-1172-447e-8d93-fabafb65a53c" />
+
 
 ## Module Design Decisions
 
@@ -165,15 +168,13 @@ project assets.
 
 ## Refactoring Observations
 
-Days 4 and 5 were almost identical files — same security groups, same ASG
+Days 4 and 5 were almost identical files same security groups, same ASG
 and ALB structure, just with day04 and day05 baked into every resource name.
 Refactoring meant replacing every hardcoded name with `${var.cluster_name}`,
 moving sizing and instance type to variables, and removing one full copy of
 the code. What was 80 lines per environment became a single module and an
 8-line calling configuration per environment.
 
-Day 3 used a single EC2 instance with no ASG or ALB so it does not map
-directly to this module. The module is purpose-built for clustered workloads.
 
 ---
 
@@ -200,18 +201,10 @@ Apache was serving on port 80. The fix was passing `server_port = 80`
 explicitly in the dev calling configuration. Health checks started passing
 within two minutes and the ALB began forwarding traffic correctly.
 
-Relative source paths in the module block are easy to get wrong. The path
-`../../../../modules/services/webserver-cluster` goes four levels up from
-`live/dev/services/webserver-cluster/` to reach the repo root, then back
-down into modules. Getting this wrong produces an error on terraform init
-rather than on apply, which makes it easier to catch early.
-
 ---
 
 ## Blog Post
-
-Building Reusable Infrastructure with Terraform Modules
+[Building Reusable Infrastructure with Terraform Modules](https://medium.com/@LydLaw/building-reusable-infrastructure-with-terraform-modules-1b7834f88e48)
 
 ## Social Media
-
-LinkedIn Post
+[LinkedIn Post](https://www.linkedin.com/posts/lydiah-nganga_30dayterraformchallenge-terraformchallenge-share-7442327423175770113-_x4P?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAcf9WQBEuwTg-q28iqt79pwr6J3YWONKAI)
