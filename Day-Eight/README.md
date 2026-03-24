@@ -8,7 +8,6 @@ with slightly different names each time. Modules are how you package that
 infrastructure logic once and call it from anywhere — different environments,
 different teams, different projects — without duplicating code.
 
----
 
 ## Tasks Completed
 
