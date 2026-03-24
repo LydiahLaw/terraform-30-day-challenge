@@ -87,6 +87,8 @@ output "environment" {
   value = terraform.workspace
 }
 ```
+<img width="1366" height="768" alt="dev main" src="https://github.com/user-attachments/assets/59e63d64-07b1-4194-a50a-06b181249f54" />
+
 
 ### Workspace Commands
 ```bash
@@ -104,6 +106,7 @@ terraform workspace select dev
 # Check active workspace
 terraform workspace show
 ```
+<img width="1366" height="768" alt="workspaces created " src="https://github.com/user-attachments/assets/30f541eb-2466-4ed8-a35e-2962810ef367" />
 
 ### Workspace List Output
 ```
@@ -121,6 +124,7 @@ env:/production/day-seven/workspaces/terraform.tfstate
 ```
 
 ---
+<img width="1366" height="631" alt="workspaces created" src="https://github.com/user-attachments/assets/4138657c-f105-4fba-86ff-40c9fbdf49e8" />
 
 ## Part 2: File Layout Isolation
 
@@ -155,6 +159,8 @@ writes its state to a completely separate location in S3. A terraform
 apply in dev cannot read or modify the production state file.
 
 ---
+<img width="1366" height="614" alt="separate environments" src="https://github.com/user-attachments/assets/fb126e06-30b2-47bd-aef8-788b45f73133" />
+
 
 ## Part 3: Remote State Data Source
 
@@ -219,8 +225,8 @@ and acquire different locks.
 The core difference between workspaces and file layouts is not just about
 state files. Workspaces isolate state but share code. File layouts isolate
 everything — state, code, and backend configuration. That distinction is
-what makes file layouts safer for production. With workspaces, a bug in
-your configuration exists in all environments simultaneously. With file
+what makes file layouts safer for production. 
+With workspaces, a bug in your configuration exists in all environments simultaneously. With file
 layouts, you control exactly what goes into each environment and when.
 
 The remote state data source solves the problem of sharing data between
@@ -245,10 +251,10 @@ directory will fail because the backend configuration is environment-specific.
 
 ## Blog Post
 
-[State Isolation: Workspaces vs File Layouts — When to Use Each](paste your Medium URL here)
+[State Isolation: Workspaces vs File Layouts — When to Use Each](https://medium.com/@LydLaw/state-isolation-workspaces-vs-file-layouts-when-to-use-each-01e44015eda0)
 
 ---
 
 ## Social Media
 
-[LinkedIn Post](paste your LinkedIn URL here)
+[LinkedIn Post](https://www.linkedin.com/posts/lydiah-nganga_30dayterraformchallenge-terraformchallenge-share-7442232754861142016-mf0M?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAcf9WQBEuwTg-q28iqt79pwr6J3YWONKAI)
