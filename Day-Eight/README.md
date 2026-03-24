@@ -24,7 +24,7 @@ different teams, different projects — without duplicating code.
 - Published blog post
 - Shared on social media
 
----
+
 
 ## Project Structure
 ```
@@ -47,7 +47,7 @@ Day-Eight/
                 └── main.tf
 ```
 
----
+
 
 ## Module Inputs
 ```hcl
@@ -83,7 +83,6 @@ variable "server_port" {
 resource name inside the module is prefixed with `var.cluster_name` so the
 same module can run in multiple environments without naming conflicts.
 
----
 
 ## Module Outputs
 ```hcl
@@ -98,7 +97,7 @@ output "asg_name" {
 }
 ```
 
----
+
 
 ## Calling Configurations
 
@@ -134,7 +133,7 @@ module "webserver_cluster" {
 
 Same module, different inputs. No code duplication.
 
----
+
 
 ## Deployment Confirmation
 
@@ -144,7 +143,7 @@ two instances behind the ALB. After the initial 502, the fix was passing
 the 8080 default in the module. Screenshot of the running cluster is in the
 project assets.
 
----
+
 <img width="1366" height="768" alt="output apply" src="https://github.com/user-attachments/assets/5b8f54b2-d907-4ca2-bcf6-399deb3ac34b" />
 <img width="1366" height="768" alt="browser" src="https://github.com/user-attachments/assets/435ec061-1172-447e-8d93-fabafb65a53c" />
 
@@ -163,7 +162,7 @@ project assets.
 - Both `alb_dns_name` and `asg_name` are exposed as outputs — the DNS name
   for browser verification, the ASG name for monitoring and debugging
 
----
+
 
 ## Refactoring Observations
 
@@ -175,7 +174,7 @@ the code. What was 80 lines per environment became a single module and an
 8-line calling configuration per environment.
 
 
----
+
 
 ## Chapter 4 Learnings
 
@@ -189,7 +188,7 @@ the code. What was 80 lines per environment became a single module and an
   They are accessible to the calling configuration as
   module.module_name.output_name and are visible in terraform state show.
 
----
+
 
 ## Challenges and Fixes
 
@@ -200,7 +199,7 @@ Apache was serving on port 80. The fix was passing `server_port = 80`
 explicitly in the dev calling configuration. Health checks started passing
 within two minutes and the ALB began forwarding traffic correctly.
 
----
+
 
 ## Blog Post
 [Building Reusable Infrastructure with Terraform Modules](https://medium.com/@LydLaw/building-reusable-infrastructure-with-terraform-modules-1b7834f88e48)
