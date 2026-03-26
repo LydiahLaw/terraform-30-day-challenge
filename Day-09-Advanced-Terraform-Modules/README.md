@@ -9,7 +9,6 @@ versioning pattern that makes modules safe to share across a team. By the end
 of today the module from Day 8 is version-pinned, lives in its own repository,
 and is deployed differently across dev and production.
 
----
 
 ## Tasks Completed
 
