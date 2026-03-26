@@ -27,7 +27,7 @@ and is deployed differently across dev and production.
 - Published blog post
 - Shared on social media
 
----
+
 
 ## Project Structure
 ```
@@ -45,7 +45,7 @@ Day-09-Advanced-Terraform-Modules/
 
 Module repository: github.com/LydiahLaw/terraform-aws-webserver-cluster
 
----
+
 
 ## Module Gotchas
 
@@ -238,9 +238,8 @@ the source is immutable — a tag always points to the same commit.
 
 ## Challenges and Fixes
 
-No errors during the GitHub source setup or tagging. The terraform init output confirmed Terraform pulled the correct version from the remote repository for each environment — v0.0.2 for dev and v0.0.1 for production. The cluster deployed cleanly and was reachable in the browser. The main thing to note is that switching from a local path source to a GitHub source requires running terraform init again — Terraform needs to pull and cache the remote module before plan or apply will work.
+No errors during the GitHub source setup or tagging. The terraform init output confirmed Terraform pulled the correct version from the remote repository for each environment  v0.0.2 for dev and v0.0.1 for production. The cluster deployed cleanly and was reachable in the browser. The main thing to note is that switching from a local path source to a GitHub source requires running terraform init again Terraform needs to pull and cache the remote module before plan or apply will work.
 
----
 
 ## Blog Post
 
@@ -249,4 +248,4 @@ URL: [https://medium.com/@LydLaw/advanced-terraform-module-usage-versioning-gotc
 
 ## Social Media
 
-URL: [paste URL]
+URL: [https://www.linkedin.com/posts/lydiah-nganga_advanced-terraform-module-usage-versioning-activity-7442949632160292864-k1ua?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAcf9WQBEuwTg-q28iqt79pwr6J3YWONKAI]
