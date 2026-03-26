@@ -138,7 +138,6 @@ depends_on on a module forces Terraform to evaluate the entire module as a
 dependency. Referencing a specific output gives Terraform a precise dependency
 to reason about.
 
----
 
 ## Module Versioning
 
@@ -161,7 +160,8 @@ v0.0.1
 v0.0.2
 ```
 
----
+<img width="1366" height="768" alt="tags confirmed" src="https://github.com/user-attachments/assets/92389551-ce43-4774-a50f-3817a7824211" />
+
 
 ## Calling Configurations
 
@@ -198,7 +198,8 @@ module "webserver_cluster" {
 Production stays on v0.0.1 until v0.0.2 is validated in dev. The update to
 production is a deliberate decision, not an automatic one.
 
----
+<img width="1366" height="768" alt="tag added to variablestf" src="https://github.com/user-attachments/assets/36f2b2f7-a964-42a4-bb21-1833bc7bc1ca" />
+
 
 ## Deployment Confirmation
 
@@ -206,7 +207,10 @@ Deployed from live/dev/services/webserver-cluster using v0.0.2. Cluster came
 up with instances behind the ALB and was reachable in the browser. Screenshot
 saved. Resources destroyed after confirmation.
 
----
+<img width="1366" height="768" alt="deplyment confirmed" src="https://github.com/user-attachments/assets/6fb9eea4-a896-4840-9996-2266ca1a8f2d" />
+<img width="1366" height="678" alt="browser working" src="https://github.com/user-attachments/assets/6655cc44-30d0-44b6-80f1-67425fcf739c" />
+
+
 
 ## Version Pinning Strategy
 
@@ -217,34 +221,31 @@ have not seen. Two engineers running apply minutes apart can end up with
 different infrastructure from the same configuration. Pinning to a tag means
 the source is immutable — a tag always points to the same commit.
 
----
+
 
 ## Chapter 4 Learnings
 
 - File paths inside modules must use path.module, not relative paths, because
   Terraform resolves paths from the working directory where commands are run
 - Inline blocks and separate resources for the same configuration conflict when
-  mixed — pick one pattern per resource type and stay consistent
+  mixed  pick one pattern per resource type and stay consistent
 - depends_on on a module creates a dependency on the entire module, not a
-  specific resource — use output references for precise dependency tracking
-- Git tags are immutable version markers. Branches are not — a branch source
+  specific resource use output references for precise dependency tracking
+- Git tags are immutable version markers. Branches are not a branch source
   can change between two terraform init runs on the same configuration
 
----
+
 
 ## Challenges and Fixes
 
-Paste what came up during the GitHub source URL setup, terraform init caching,
-or tagging here after you complete the steps.
+No errors during the GitHub source setup or tagging. The terraform init output confirmed Terraform pulled the correct version from the remote repository for each environment — v0.0.2 for dev and v0.0.1 for production. The cluster deployed cleanly and was reachable in the browser. The main thing to note is that switching from a local path source to a GitHub source requires running terraform init again — Terraform needs to pull and cache the remote module before plan or apply will work.
 
 ---
 
 ## Blog Post
 
-URL: [paste URL]
-Covered the three module gotchas with broken and corrected examples, the
-versioning workflow from tagging to pinning, all three source URL formats, and
-the multi-environment deployment pattern.
+URL: [https://medium.com/@LydLaw/advanced-terraform-module-usage-versioning-gotchas-and-reuse-across-environments-249efc838488]
+
 
 ## Social Media
 
