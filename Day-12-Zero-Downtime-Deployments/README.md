@@ -197,6 +197,8 @@ Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
 ```
 
 Both switches confirmed working in both directions.
+<img width="1366" height="768" alt="bluegreen v2" src="https://github.com/user-attachments/assets/4e2e4004-1339-42a2-b472-b0d8af5eff69" />
+
 
 ## Key Takeaways
 
