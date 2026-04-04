@@ -2,16 +2,16 @@
 
 ## Overview
 
-Day 12 covers zero-downtime deployment techniques in Terraform. The focus is on why Terraform's default destroy-then-create behaviour causes downtime, how `create_before_destroy` reverses that order, the ASG naming problem that comes with it and how to solve it, and how to implement a blue/green deployment pattern that shifts traffic atomically at the load balancer level. The webserver cluster module is updated to v0.0.8 with lifecycle rules, instance refresh support, and blue/green target groups.
+Day 12 covers zero-downtime deployment techniques in Terraform. The focus is on why Terraform's default destroy-then-create behaviour causes downtime, how `create_before_destroy` reverses that order, the ASG naming problem that comes with it and how to solve it, and how to implement a blue/green deployment pattern that shifts traffic atomically at the load balancer level. The webserver cluster module is updated to v1.0.0 with lifecycle rules, instance refresh support, and blue/green target groups. A key lesson from this day: zero-downtime instance refresh requires a minimum of two instances — this was hit in practice and fixed before the final demo.
 
 ## Learning Objectives
 
 - Understand why default Terraform replace behaviour causes downtime for ASG-backed applications
 - Implement `create_before_destroy` on Launch Templates and Auto Scaling Groups
-- Use `name_prefix` instead of `name` on ASGs to avoid naming conflicts during zero-downtime replacements
+- Use `name_prefix` instead of `name` on ASGs to avoid naming conflicts during replacement
 - Trigger instance refresh to replace running instances without downtime
-- Implement a blue/green listener rule that switches traffic with a single variable change
 - Understand the minimum instance count requirement for true zero-downtime
+- Implement a blue/green listener rule that switches traffic with a single variable change
 
 ## Project Structure
 
@@ -25,7 +25,7 @@ Day-12-Zero-Downtime-Deployments/
                 └── outputs.tf
 ```
 
-Module repository: [github.com/LydiahLaw/terraform-aws-webserver-cluster](https://github.com/LydiahLaw/terraform-aws-webserver-cluster) — tagged `v0.0.8`
+Module repository: [github.com/LydiahLaw/terraform-aws-webserver-cluster](https://github.com/LydiahLaw/terraform-aws-webserver-cluster) — tagged `v1.0.0`
 
 ## Concepts Covered
 
@@ -46,6 +46,7 @@ resource "aws_launch_template" "web" {
 
   user_data = base64encode(<<-EOF
               #!/bin/bash
+              # version: 2
               apt-get update -y
               apt-get install -y apache2
               systemctl start apache2
@@ -85,12 +86,12 @@ resource "aws_autoscaling_group" "web" {
 The deployed ASG name confirms this:
 
 ```
-asg_name = "webservers-dev-20260402074016170400000003"
+asg_name = "webservers-dev-20260404082236574800000003"
 ```
 
 ### Launch Template Versioning vs Launch Configuration
 
-The book demonstrates this pattern with `aws_launch_configuration`, which is fully replaced on every change and triggers `create_before_destroy` automatically. Launch Templates version in-place instead — Terraform creates a new version of the same resource rather than replacing it. This means running instances are not automatically replaced when user data changes.
+The book demonstrates this pattern with `aws_launch_configuration`, which is fully replaced on every change and triggers `create_before_destroy` automatically. Launch Templates version in-place — Terraform creates a new version of the same resource rather than replacing it. Running instances are not automatically replaced when user data changes.
 
 The production solution is an instance refresh triggered after the Terraform apply:
 
@@ -103,21 +104,43 @@ aws autoscaling start-instance-refresh \
 
 ### The Minimum Instance Count Requirement
 
-Zero-downtime instance refresh requires at least two instances. With `min_size = 1`, the refresh terminates the only running instance before the replacement is healthy, causing a gap in service. This was observed during testing:
+The first attempt ran with `min_size = 1`. With only one instance, the refresh terminated it before the replacement was healthy — causing 503s and 502s during the transition. This is not a Terraform bug. It is a fundamental requirement: zero-downtime refresh needs at least two instances so one can serve traffic while the other is replaced.
+
+The fix was updating the dev locals block from:
+
+```hcl
+min_size = local.is_production ? 3 : 1
+```
+
+to:
+
+```hcl
+min_size = local.is_production ? 3 : 2
+```
+
+With two instances and `MinHealthyPercentage = 50`, the refresh keeps one instance healthy throughout. The traffic loop confirmed this — responses alternated between v1 and v2 as the ALB round-robined between the old and new instance during the transition, then settled on v2 once the refresh completed:
 
 ```
 <h1>Hello from webservers-dev - v1</h1>
 <h1>Hello from webservers-dev - v1</h1>
-503 Service Temporarily Unavailable
-502 Bad Gateway
+<h1>Hello from webservers-dev - v2</h1>
+<h1>Hello from webservers-dev - v1</h1>
+<h1>Hello from webservers-dev - v2</h1>
+<h1>Hello from webservers-dev - v2</h1>
 <h1>Hello from webservers-dev - v2</h1>
 ```
 
-In production with `min_size = 3` and `MinHealthyPercentage = 50`, two instances remain healthy while the third is replaced — no gap, no errors.
+No 503s. No dropped requests. Instance refresh confirmed at 100% Successful.
+
+<img width="1366" height="768" alt="Screenshot (1805)" src="https://github.com/user-attachments/assets/d2180fa4-2e0c-4dfd-b5e5-ed7a56866603" />
+
+<img width="1366" height="768" alt="Screenshot (1808)" src="https://github.com/user-attachments/assets/390e04a9-dc3c-420e-a178-b85901dd9b7d" />
+
+
 
 ### Blue/Green Deployment
 
-Two target groups — blue and green — are maintained alongside the existing web target group. A listener rule at priority 100 routes all traffic to whichever target group is active:
+Two target groups — blue and green — are maintained alongside the existing web target group. A listener rule at priority 100 routes all traffic to whichever is active:
 
 ```hcl
 variable "active_environment" {
@@ -154,32 +177,44 @@ Switching from blue to green changes one variable and runs one apply. The listen
 Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
 ```
 
-## Module Changes in v0.0.8
+Both switches confirmed working in both directions with no observable interruption in the traffic loop.
 
-Changes made to `terraform-aws-webserver-cluster` from v0.0.4:
+## Module Changes in v1.0.0
+
+Changes made to `terraform-aws-webserver-cluster` across Days 12 iterations:
 
 - Added `create_before_destroy` lifecycle to `aws_launch_template`
 - Changed ASG `name` to `name_prefix` to support concurrent ASG existence during replacement
 - Added `create_before_destroy` lifecycle to `aws_autoscaling_group`
+- Updated dev `min_size` from 1 to 2 in locals to support zero-downtime instance refresh
 - Added `aws_lb_target_group.blue` and `aws_lb_target_group.green`
-- Registered all three target groups in the ASG `target_group_arns`
+- Registered all three target groups in ASG `target_group_arns`
 - Added `aws_lb_listener_rule.blue_green` with ternary routing
 - Added `active_environment` variable with validation
 - Added `blue_target_group_arn` and `green_target_group_arn` outputs
 
 ## Deployment Results
 
-### Initial deployment (v1)
+### Initial deployment
 
 ```
 Apply complete! Resources: 10 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-alb_dns_name           = "webservers-dev-alb-1057441099.eu-central-1.elb.amazonaws.com"
-asg_name               = "webservers-dev-20260402074016170400000003"
-blue_target_group_arn  = "arn:aws:elasticloadbalancing:eu-central-1:835960997504:targetgroup/webservers-dev-blue-tg/0a9ea83e4fc82ae5"
-green_target_group_arn = "arn:aws:elasticloadbalancing:eu-central-1:835960997504:targetgroup/webservers-dev-green-tg/eb46968c807cc996"
+alb_dns_name           = "webservers-dev-alb-1683808078.eu-central-1.elb.amazonaws.com"
+asg_name               = "webservers-dev-20260404082236574800000003"
+blue_target_group_arn  = "arn:aws:elasticloadbalancing:eu-central-1:835960997504:targetgroup/webservers-dev-blue-tg/af8e3b70f13f6d53"
+green_target_group_arn = "arn:aws:elasticloadbalancing:eu-central-1:835960997504:targetgroup/webservers-dev-green-tg/d1b90def2702d232"
+```
+
+### Zero-downtime v1 to v2 transition
+
+Instance refresh completed with no 503s. Responses alternated between v1 and v2 during the transition window then settled on v2.
+
+```
+| PercentageComplete  |   Status     |
+|  100                |  Successful  |
 ```
 
 ### Blue to green switch
@@ -188,22 +223,19 @@ green_target_group_arn = "arn:aws:elasticloadbalancing:eu-central-1:835960997504
 Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
 ```
 
-Listener rule updated in 1 second. One API call. No instances touched.
-
 ### Green back to blue
 
 ```
 Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
 ```
 
-Both switches confirmed working in both directions.
-<img width="1366" height="768" alt="bluegreen v2" src="https://github.com/user-attachments/assets/4e2e4004-1339-42a2-b472-b0d8af5eff69" />
-
+Both switches completed in under two seconds with no interruption.
 
 ## Key Takeaways
 
 - `create_before_destroy` reverses Terraform's default destroy-then-create order but requires unique resource names to work
 - `name_prefix` on ASGs is required — hardcoded `name` will cause apply failures when `create_before_destroy` is true
 - Launch Templates version in-place unlike Launch Configurations — instance refresh is needed to replace running instances
-- Zero-downtime instance refresh requires a minimum of two instances so one can serve traffic while the other is replaced
+- Zero-downtime instance refresh requires a minimum of two instances — with `min_size = 1` you will get 503s regardless of lifecycle configuration
 - Blue/green traffic switching is a single listener rule update — one variable change, one apply, one API call
+- Alternating responses during an instance refresh are not errors — they are the ALB distributing traffic across old and new instances during the transition window
