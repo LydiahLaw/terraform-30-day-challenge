@@ -4,7 +4,7 @@
 
 This project covers secrets management in Terraform — specifically how secrets leak and how to stop every leak path using AWS Secrets Manager and Terraform's built-in sensitive value handling. The configuration provisions an RDS MySQL instance using credentials fetched at runtime from AWS Secrets Manager, with no secret values written to any configuration file.
 
----
+
 
 ## The problem
 
@@ -16,7 +16,7 @@ Terraform configurations handle secrets in three places, and each one is a poten
 
 Closing one or two of these paths is not enough. All three need to be addressed.
 
----
+
 
 ## What this configuration does
 
@@ -27,7 +27,7 @@ Closing one or two of these paths is not enough. All three need to be addressed.
 - Marks all sensitive outputs with `sensitive = true` to prevent values from appearing in terminal output and logs
 - Uses an encrypted S3 backend with DynamoDB locking for state management
 
----
+
 
 ## Project structure
 
@@ -41,7 +41,7 @@ Day-13-Terraform-Secrets-Management/
 └── README.md
 ```
 
----
+
 
 ## Prerequisites
 
@@ -50,7 +50,7 @@ Day-13-Terraform-Secrets-Management/
 - S3 bucket for remote state: `lydiah-terraform-state-bucket`
 - DynamoDB table for state locking: `terraform-state-locks`
 
----
+
 
 ## Setup
 
@@ -107,7 +107,7 @@ Changes to Outputs:
   + db_username = (sensitive value)
 ```
 
----
+
 
 ## Key concepts
 
@@ -173,7 +173,7 @@ aws s3api get-bucket-versioning --bucket lydiah-terraform-state-bucket
 aws s3api get-bucket-encryption --bucket lydiah-terraform-state-bucket
 ```
 
----
+
 
 ## .gitignore
 
@@ -188,7 +188,7 @@ override.tf
 override.tf.json
 ```
 
----
+
 
 ## Resources
 
@@ -196,7 +196,7 @@ override.tf.json
 - [AWS Secrets Manager documentation](https://docs.aws.amazon.com/secretsmanager/)
 - [Terraform sensitive variables](https://developer.hashicorp.com/terraform/language/values/variables#suppressing-values-in-cli-output)
 - [Standalone secrets management guide](https://github.com/LydiahLaw/terraform-secrets-management-guide)
-- [Day 13 blog post](https://medium.com/@lydiah)
+- [Day 13 blog post](https://medium.com/@LydLaw/how-to-handle-sensitive-data-securely-in-terraform-3288979199b2)
 
 ---
 
