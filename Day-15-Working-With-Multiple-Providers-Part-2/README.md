@@ -112,6 +112,8 @@ resource "docker_container" "nginx" {
 ```
 
 After apply, nginx was confirmed serving at http://localhost:8080. Destroy removed the container and image cleanly.
+<img width="1366" height="725" alt="ru docker" src="https://github.com/user-attachments/assets/12627211-3d93-49c9-864d-681cf64af097" />
+
 
 ## Task 5 — EKS cluster and Kubernetes deployment
 
@@ -170,6 +172,7 @@ provider "kubernetes" {
   }
 }
 ```
+<img width="1366" height="717" alt="eks cluster" src="https://github.com/user-attachments/assets/2fcb77cf-56c3-4c21-8953-4b73f0fe9b98" />
 
 Deployment confirmed via CLI:
 
@@ -177,6 +180,7 @@ Deployment confirmed via CLI:
 NAME               READY   UP-TO-DATE   AVAILABLE   AGE
 nginx-deployment   2/2     2            2           6m10s
 ```
+<img width="1366" height="768" alt="deployment confirmed" src="https://github.com/user-attachments/assets/8e808c0e-f60f-472d-b221-424cff896006" />
 
 ## Issues encountered
 
@@ -201,8 +205,8 @@ During destroy, the Kubernetes provider threw Unauthorized because it tried to r
 - [AWS EKS Terraform module](https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest)
 - [AWS VPC Terraform module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest)
 - [kreuzwerker Docker provider](https://registry.terraform.io/providers/kreuzwerker/docker/latest)
-- [Day 15 blog post](https://medium.com/@LydLaw)
+- [Day 15 blog post](https://medium.com/@LydLaw/deploying-multi-cloud-infrastructure-with-terraform-modules-7ef406e48efa)
 
 ## Conclusion
 
-Provider-aware modules built with configuration_aliases and the providers map are the correct pattern for reusable multi-region and multi-account infrastructure. The caller controls the target — the module stays generic. The Docker and Kubernetes providers extend this same model beyond AWS, showing that Terraform's provider system works consistently across platforms.
+Provider-aware modules built with configuration_aliases and the providers map are the correct pattern for reusable multi-region and multi-account infrastructure. The caller controls the target the module stays generic. The Docker and Kubernetes providers extend this same model beyond AWS, showing that Terraform's provider system works consistently across platforms.
