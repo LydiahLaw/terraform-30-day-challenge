@@ -106,7 +106,7 @@ required_providers {
 
 The `~> 5.0` constraint allows any version >= 5.0 and < 6.0. This receives patch and minor updates automatically while protecting against breaking changes from a major version bump.
 
----
+
 
 ## The .terraform.lock.hcl file
 
@@ -179,7 +179,7 @@ terraform apply -auto-approve
 terraform destroy -auto-approve
 ```
 
----
+
 
 ## Resources created
 
@@ -193,7 +193,7 @@ terraform destroy -auto-approve
 | s3-replication-role-day14 | IAM role | global |
 | s3-replication-policy-day14 | IAM role policy | global |
 
----
+
 
 ## Key concepts
 
@@ -212,7 +212,7 @@ resource "aws_s3_bucket_replication_configuration" "replication" {
 
 During this project the remote state bucket was accidentally deleted from the console. Terraform could not read or write state, and `terraform destroy` reported nothing to destroy — because from Terraform's perspective, nothing existed. The resources were still live in AWS and had to be cleaned up manually via CLI. This is a practical demonstration of why the state bucket must be treated with the same care as the infrastructure it tracks.
 
----
+
 
 ## Resources
 
@@ -221,7 +221,7 @@ During this project the remote state bucket was accidentally deleted from the co
 - [AWS S3 Cross-Region Replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html)
 - [Day 14 blog post](https://medium.com/@LydLaw/getting-started-with-multiple-providers-in-terraform-d6b7120d254c)
 
----
+
 
 ## Conclusion
 
