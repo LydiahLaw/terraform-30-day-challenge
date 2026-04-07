@@ -4,7 +4,7 @@
 
 This project covers how Terraform's provider system works — how providers are installed, versioned, and configured — and applies that knowledge by deploying resources across multiple AWS regions using provider aliases. The practical demonstration is an S3 cross-region replication setup: a primary bucket in eu-central-1 and a replica in eu-west-1, with replication configured between them.
 
----
+
 
 ## What this configuration does
 
@@ -16,7 +16,7 @@ This project covers how Terraform's provider system works — how providers are 
 - Creates an IAM role and policy scoped to replication permissions only
 - Includes multi-account provider configuration using `assume_role` for reference
 
----
+
 
 ## Project structure
 
@@ -30,7 +30,7 @@ Day-14-Working-With-Multiple-Providers/
 └── README.md
 ```
 
----
+
 
 ## Prerequisites
 
@@ -39,7 +39,7 @@ Day-14-Working-With-Multiple-Providers/
 - S3 bucket for remote state: `lydiah-terraform-state-bucket`
 - DynamoDB table for state locking: `terraform-state-locks`
 
----
+
 
 ## Provider configuration
 
@@ -91,7 +91,7 @@ provider "aws" {
 
 Terraform calls AWS STS to exchange your current credentials for temporary credentials scoped to the target role. All API calls for resources referencing that provider run under the role's permissions. This configuration is included for reference — no resources reference these providers in this project as it requires two separate AWS accounts.
 
----
+
 
 ## Provider versioning
 
@@ -126,7 +126,7 @@ provider "registry.terraform.io/hashicorp/aws" {
 
 This file must be committed to version control.
 
----
+
 
 ## Setup and usage
 
@@ -168,6 +168,10 @@ Changes to Outputs:
 ```bash
 terraform apply -auto-approve
 ```
+<img width="1366" height="768" alt="Screenshot (1811)" src="https://github.com/user-attachments/assets/0b2d9a38-577e-48f5-9985-fc776235abf5" />
+
+<img width="1366" height="631" alt="Screenshot (1812)" src="https://github.com/user-attachments/assets/96075944-7ba0-4f7e-a5ad-0fc6e12a28b0" />
+
 
 ### Step 5 — destroy when done
 
