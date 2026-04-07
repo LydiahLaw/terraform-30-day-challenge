@@ -13,7 +13,7 @@ provider "aws" {
 }
 
 module "webserver_cluster" {
-  source = "github.com/LydiahLaw/terraform-aws-webserver-cluster?ref=v0.0.8"
+  source = "github.com/LydiahLaw/terraform-aws-webserver-cluster?ref=v1.0.0"
 
   cluster_name               = "webservers-dev"
   environment                = "dev"
