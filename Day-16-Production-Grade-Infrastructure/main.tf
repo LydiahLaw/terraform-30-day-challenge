@@ -24,3 +24,7 @@ module "webserver_cluster" {
   custom_tag                 = "day16"
   active_environment         = "blue"
 }
+
+output "alb_dns_name" {
+  value = module.webserver_cluster.alb_dns_name
+}
