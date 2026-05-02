@@ -1,28 +1,24 @@
-## day-17-manual-testing
+## Day 17 Manual Testing
 
-### overview
+### Overview
 
 Day 17 shifted the focus from building infrastructure to validating it. Instead of adding new resources, I worked through a structured manual testing process to verify that my existing webserver cluster behaves correctly under real conditions. This included provisioning checks, functional validation, state consistency, regression testing, and cleanup discipline.
 
 This day made one thing clear. Running terraform apply is not proof that your infrastructure works. You need a repeatable way to test and verify behavior.
 
----
-
-### what i set out to do
+### What I Set Out To Do
 
 The goal was to:
 
-* build a structured manual testing checklist
-* execute tests against my infrastructure
-* document results clearly
-* identify failures and fix them
-* enforce cleanup to avoid unnecessary AWS costs
+* Build a structured manual testing checklist
+* Execute tests against my infrastructure
+* Document results clearly
+* Identify failures and fix them
+* Enforce cleanup to avoid unnecessary AWS costs
 
----
+### Project Structure
 
-### project structure
-
-```bash id="f8n2rb"
+```bash id="r1m8zt"
 Day-17-Manual-Testing/
   main.tf
   manual-test-results.md
@@ -30,74 +26,68 @@ Day-17-Manual-Testing/
 
 This setup reuses the standalone module:
 
-```hcl id="q9bzv5"
+```hcl id="6x3g9y"
 module "webserver_cluster" {
   source = "github.com/LydiahLaw/terraform-aws-webserver-cluster?ref=main"
 }
 ```
 
----
+### Manual Testing Checklist
 
-### manual testing checklist
+#### Provisioning Verification
 
-#### provisioning verification
+* Terraform init completes without errors
+* Terraform validate passes
+* Terraform plan shows expected resources
+* Terraform apply completes successfully
 
-* terraform init completes without errors
-* terraform validate passes
-* terraform plan shows expected resources
-* terraform apply completes successfully
+#### Resource Correctness
 
-#### resource correctness
+* Resources visible in AWS console
+* Names and tags match configuration
+* Security group rules match expected setup
 
-* resources visible in AWS console
-* names and tags match configuration
-* security group rules match expected setup
-
-#### functional verification
+#### Functional Verification
 
 * ALB DNS resolves
-* curl returns expected response
-* instances pass health checks
+* Curl returns expected response
+* Instances pass health checks
 * ASG replaces terminated instance
 
-#### state consistency
+#### State Consistency
 
-* terraform plan returns no changes after apply
-* state matches deployed infrastructure
+* Terraform plan returns no changes after apply
+* State matches deployed infrastructure
 
-#### regression check
+#### Regression Check
 
-* configuration change reflected correctly
-* no unexpected changes in plan
-* plan clean after re-apply
+* Configuration change reflected correctly
+* No unexpected changes in plan
+* Plan clean after re-apply
 
----
+### Test Execution And Results
 
-### test execution and results
+#### Provisioning Tests
 
-#### provisioning tests
-
-Test: terraform init completes
+Test: Terraform init completes
 Command: terraform init
-Expected: initialization successful
-Actual: initialization successful
+Expected: Initialization successful
+Actual: Initialization successful
 Result: PASS
 
-Test: terraform validate passes
+Test: Terraform validate passes
 Command: terraform validate
-Expected: success
-Actual: success
+Expected: Success
+Actual: Success
 Result: PASS
 
-Test: terraform plan after apply
+Test: Terraform plan after apply
 Command: terraform plan
-Expected: no changes
-Actual: no changes
+Expected: No changes
+Actual: No changes
 Result: PASS
 
----
-
-#### functional tests
+#### Functional Tests
 
 Test: ALB DNS resolves and returns response
 Command: curl -s http://webservers-day17-alb-430036926.eu-central-1.elb.amazonaws.com
@@ -106,90 +96,78 @@ Actual: <h1>Hello from webservers-day17 - v2</h1>
 Result: PASS
 
 Test: ASG replaces terminated instance
-Command: manual termination via AWS console
+Command: Manual termination via AWS console
 Expected: ASG launches replacement instance
-Actual: new instance launched automatically
+Actual: New instance launched automatically
 Result: PASS
 
----
+#### State Consistency
 
-#### state consistency
-
-Test: terraform plan returns clean state
+Test: Terraform plan returns clean state
 Command: terraform plan
-Expected: no changes
-Actual: no changes
+Expected: No changes
+Actual: No changes
 Result: PASS
 
----
+#### Regression Testing
 
-#### regression testing
-
-Test: regression test using custom_tag change
+Test: Regression test using custom_tag change
 Command: terraform plan
-Expected: tag updates
-Actual: no changes
+Expected: Tag updates
+Actual: No changes
 Result: FAIL
-Fix: identified that custom_tag is not used in tagging logic
+Fix: Identified that custom_tag is not used in tagging logic
 
-Test: regression test using cluster_name change
+Test: Regression test using cluster_name change
 Command: terraform plan
-Expected: resource updates
-Actual: replacement required but blocked by prevent_destroy
+Expected: Resource updates
+Actual: Replacement required but blocked by prevent_destroy
 Result: FAIL
-Fix: identified lifecycle.prevent_destroy prevents replacement of critical resources
+Fix: Identified lifecycle.prevent_destroy prevents replacement of critical resources
 
----
+### Cleanup Process
 
-### cleanup process
-
-Test: terraform destroy
+Test: Terraform destroy
 Command: terraform destroy
-Expected: all resources destroyed
-Actual: destroy failed due to prevent_destroy
+Expected: All resources destroyed
+Actual: Destroy failed due to prevent_destroy
 Result: FAIL
 
-Test: cleanup after module update
+Test: Cleanup after module update
 Command: terraform init -upgrade and terraform destroy
-Expected: all resources destroyed
-Actual: successful after refreshing module
+Expected: All resources destroyed
+Actual: Successful after refreshing module
 Result: PASS
 
-verification:
+Verification:
 
-```bash id="rpgmgh"
+```bash id="n7v4ks"
 aws ec2 describe-instances --filters "Name=tag:ManagedBy,Values=terraform" --query "Reservations[*].Instances[*].InstanceId"
 ```
 
-```bash id="7ymxsr"
+```bash id="f4q9lm"
 aws elbv2 describe-load-balancers --query "LoadBalancers[*].LoadBalancerArn"
 ```
 
-Expected result: empty outputs
+Expected result: Empty outputs
 
----
+### Key Insights
 
-### key insights
+* Manual testing requires structure, not guesswork
+* Terraform plan is one of the most important validation tools
+* Not all configuration changes result in infrastructure updates
+* Lifecycle rules like prevent_destroy protect infrastructure but can block legitimate changes
+* Terraform caches modules, changes require reinitialization
+* Incomplete destroy operations can leave orphaned resources
 
-* manual testing requires structure, not guesswork
-* terraform plan is one of the most important validation tools
-* not all configuration changes result in infrastructure updates
-* lifecycle rules like prevent_destroy protect infrastructure but can block legitimate changes
-* terraform caches modules, changes require reinitialization
-* incomplete destroy operations can leave orphaned resources
+### Challenges Faced
 
----
+* Regression test initially failed due to unused variable
+* Lifecycle.prevent_destroy blocked both updates and destroy
+* Module changes not reflected due to caching
+* Leftover resources required manual cleanup strategy
 
-### challenges faced
-
-* regression test initially failed due to unused variable
-* lifecycle.prevent_destroy blocked both updates and destroy
-* module changes not reflected due to caching
-* leftover resources required manual cleanup strategy
-
----
-
-### conclusion
+### Conclusion
 
 Day 17 focused on verification and discipline rather than building. The biggest shift was understanding that infrastructure must be tested intentionally, not assumed to work. The failures encountered during testing were the most valuable part, as they revealed real-world scenarios that require careful handling.
 
