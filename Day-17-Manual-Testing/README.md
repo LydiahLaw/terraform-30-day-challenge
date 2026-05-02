@@ -6,6 +6,7 @@ Day 17 shifted the focus from building infrastructure to validating it. Instead 
 
 This day made one thing clear. Running terraform apply is not proof that your infrastructure works. You need a repeatable way to test and verify behavior.
 
+This module is defined in my standalone repository: https://github.com/LydiahLaw/terraform-aws-webserver-cluster
 ### What I Set Out To Do
 
 The goal was to:
