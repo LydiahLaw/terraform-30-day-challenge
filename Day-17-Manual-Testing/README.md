@@ -42,6 +42,9 @@ module "webserver_cluster" {
 * Terraform plan shows expected resources
 * Terraform apply completes successfully
 
+<img width="1366" height="768" alt="terraform apply" src="https://github.com/user-attachments/assets/51e1fad4-d6f6-4a1f-a79c-42a9b4b871fc" />
+
+
 #### Resource Correctness
 
 * Resources visible in AWS console
@@ -101,6 +104,11 @@ Command: Manual termination via AWS console
 Expected: ASG launches replacement instance
 Actual: New instance launched automatically
 Result: PASS
+
+<img width="1366" height="713" alt="instnace deeted" src="https://github.com/user-attachments/assets/90d808e1-ac2a-421f-96eb-235e5a63b406" />
+<img width="1366" height="725" alt="instance relaunces" src="https://github.com/user-attachments/assets/755f5f9d-908a-462e-9afb-d1a60dbcee09" />
+
+
 
 #### State Consistency
 
